@@ -1,136 +1,126 @@
-Here's a more tailored **README** for your project, `epicbet-playwright-tests`, that reflects your use of Playwright with TypeScript for automated testing of the **EpicBet** application. I’ve included specific details regarding your testing setup and how others can use it.
+# Playwright JavaScript Automation Project
+
+This project is a JavaScript-based test automation framework built using [Playwright](https://playwright.dev/). It is designed to handle both **UI tests** and **API tests**, with clear separation of concerns for better organization and maintainability.
+
+## Project Structure
+
+The project is organized into the following directories and files:
+
+### 1. **`page-objects/`**
+This directory contains Page Object Model (POM) classes for the UI tests, making the framework modular and reusable. Each page class encapsulates the actions and locators for a specific page.
+
+- `AddToCartPage.js` – Handles actions related to adding items to the cart.
+- `BasePage.js` – Contains common reusable functions like navigation and URL validation.
+- `CheckoutPage.js` – Manages actions related to the checkout process.
+- `LoginPage.js` – Encapsulates login-related actions.
 
 ---
 
-# EpicBet Playwright Tests
+### 2. **`test-data/`**
+This directory holds the test data used by both API and UI tests. Test data is organized to improve maintainability and allow easy updates.
 
-This repository contains automated tests using **Playwright** with **TypeScript** to test the **EpicBet** application. The tests cover functionality such as search and UI interactions, ensuring that the application works as expected across different browsers.
+#### Subfolders:
+- **`api/`**
+  - `AddPetBody.json` – Sample request body for adding a new pet (API tests).
+  - `endpoints.json` – Contains API endpoint URLs.
+  - `headers.json` – Common headers for API tests.
 
-## Table of Contents
-- [Getting Started](#getting-started)
-- [Running the Test Cases](#running-the-test-cases)
-- [Project Structure](#project-structure)
-- [Test Case Descriptions](#test-case-descriptions)
-- [Contributing](#contributing)
-- [License](#license)
+- **`frontEnd/`**
+  - `urls.json` – Contains base URLs and endpoints for the UI tests.
+  - `users.json` – Stores test user credentials for the login functionality.
 
-## Getting Started
+---
 
-### Prerequisites
-Make sure you have the following installed:
-- **Node.js** (v16 or higher recommended)
-- **npm** or **yarn**
-- **Playwright** dependencies for browser automation.
+### 3. **`tests/`**
+This directory contains all test cases for both UI and API.
 
-### Install Dependencies
-First, clone the repository:
-```bash
-git clone https://github.com/shary0300/epicbet-playwright-tests.git
-cd epicbet-playwright-tests
-```
+#### Subfolders:
+- **`ui/`** (For UI Tests):
+  - `AddToCart.spec.js` – Tests the functionality of adding items to the cart.
+  - `Checkout.spec.js` – Tests the checkout process.
+  - `E2EProductPurchase.spec.js` – End-to-end product purchase tests.
+  - `LoginTest.spec.js` – Validates login functionality with various credentials.
 
-Then, install the necessary dependencies:
-```bash
-npm install
-```
+- **`api/`** (For API Tests):
+  - `AddNewPet.spec.js` – Tests the API for adding a new pet.
+  - `E2EPetFlow.spec.js` – End-to-end flow for managing pet entities via API.
+  - `GetPet.spec.js` – Tests fetching pet details via API.
 
-or use `yarn` if you prefer:
-```bash
-yarn install
-```
+---
 
-Additionally, you will need to install Playwright's browser binaries:
-```bash
-npx playwright install
-```
+### 4. **`utils/`**
+Utility functions used across the tests for reusable components like HTTP requests.
+- `getRequest.js` – Utility for making GET requests.
+- `postRequest.js` – Utility for making POST requests.
 
-This will install all the required browsers (Chromium, Firefox, and WebKit) for testing.
+---
 
-## Running the Test Cases
+### 5. **Configuration Files**
+- **`playwright.config.js`** – Playwright configuration file for managing test settings like browsers, timeouts, and test directories.
+- **`playwright-ci.yml`** – CI configuration for running tests in pipelines.
+- **`package.json`** – Contains project dependencies and scripts.
+- **`.gitignore`** – Specifies files and folders to be ignored by Git.
 
-You can run the test cases using the following npm scripts.
+---
 
-### Run All Tests in the Chrome Browser
-To run all the UI tests in **Google Chrome**:
+### 6. **Reports and Results**
+- **`playwright-report/`** – Stores Playwright test reports.
+- **`test-results/`** – Stores the results of test executions.
+
+---
+
+## Installation and Setup
+
+1. Clone the repository:
+   ```bash
+   git clone <repository_url>
+   ```
+
+2. Navigate to the project directory:
+   ```bash
+   cd <project_directory>
+   ```
+
+3. Install dependencies:
+   ```bash
+   npm install
+   ```
+
+---
+
+## Running Tests
+
+### UI Tests
+To run the UI test suite using the Chrome browser:
 ```bash
 npm run chrome-ui-tests
 ```
 
-### Run Tests in All Supported Browsers
-To run the tests in all supported browsers (Chromium, Firefox, WebKit), run:
+### API Tests
+To run the API test suite:
 ```bash
-npx playwright test
+npm run chrome-api-tests
 ```
-
-This will execute all the tests and generate a report.
-
-### Run Specific Tests
-To run a specific test file, use:
-```bash
-npx playwright test path/to/test-file.spec.ts
-```
-
-For example, to run the search functionality tests:
-```bash
-npx playwright test tests/ui/searchFunc.spec.ts
-```
-
-## Project Structure
-
-The project structure is organized as follows:
-
-```
-epicbet-playwright-tests/
-├── page-objects/
-│   ├── commonPage.ts            # Page object for common actions
-│   └── liveSportsPage.ts       # Page object for search functionality
-│   └── searchFuncModal.ts       # Page object for search functionality
-│   └── sportsPage.ts       # Page object for search functionality
-├── tests/
-│   └── ui/
-│       ├── liveOdds.spec.ts   # Test case for search functionality
-│       ├── searchFunc.spec.ts   # Test case for search functionality
-│       ├── sports.spec.ts   # Test case for search functionality
-├── test-data/
-│   ├── urls.json               # URL data for tests
-│   └── teams.json              # Team names used in search tests
-├── playwright.config.ts         # Playwright configuration file
-├── package.json                # Project dependencies and scripts
-└── README.md                   # Project documentation
-```
-
-### Key Folders and Files:
-- **`page-objects/`**: Contains TypeScript files that represent different pages of the application. These files encapsulate the interactions with various elements of the page.
-- **`tests/`**: Contains the test scripts, organized by test types (e.g., UI tests).
-- **`test-data/`**: Contains the test data files, such as URLs and teams, that are used in your tests.
-- **`playwright.config.ts`**: Configuration file for Playwright, where you can customize the browsers, timeout settings, and other configurations for your tests.
-- **`package.json`**: Manages dependencies, scripts, and metadata for the project.
-
-## Test Case Descriptions
-
-### Search Functionality Test (`searchFunc.spec.ts`)
-
-- **Purpose**: Tests the search functionality of the EpicBet application to ensure that users can successfully search for teams using the search modal.
-- **Test Steps**:
-  - Navigate to the homepage.
-  - Click the search button to open the search modal.
-  - For each team in the test data, input the team name into the search field.
-  - Validate that the search result matches the expected result for the team.
-
-### Other Tests
-Additional tests will be added for different functionalities such as UI interactions, data validations, and edge cases.
-
-## Contributing
-
-We welcome contributions to this repository! If you’d like to contribute, please follow these steps:
-1. Fork the repository.
-2. Create a new branch for your feature or bugfix.
-3. Implement your changes and test them.
-4. Submit a pull request with a clear description of your changes.
 
 ---
 
-### Next Steps:
-- **Testing**: You can now run the test suite using Playwright to verify that the EpicBet application is functioning as expected across multiple browsers.
-- **Customizing Tests**: You can add more tests or modify the existing ones to test new features or fix any issues.
-- **Contributing**: Feel free to fork the project and contribute with additional test cases or improvements.
+## Key Features
+- **Playwright Framework**: Fast, reliable, and cross-browser testing.
+- **Page Object Model**: Modular and maintainable UI test design.
+- **Test Data Management**: Centralized test data for both API and UI tests.
+- **CI Integration**: Configured for Continuous Integration pipelines.
+
+---
+
+## Contributing
+Contributions are welcome! Please follow these steps:
+1. Fork the repository.
+2. Create a feature branch.
+3. Commit your changes.
+4. Submit a pull request.
+
+---
+
+## License
+This project is licensed under the MIT License. See the LICENSE file for details.
+
